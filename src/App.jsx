@@ -11,6 +11,7 @@ import RegistrationPage from './pages/RegisterPage';
 import UserPage from './pages/UserPage';
 import ThreadDetailsPage from './pages/ThreadDetailsPage';
 import AddThreadPage from './pages/AddThreadPage';
+import LeaderboardsPage from './pages/LeaderboarsPage';
 
 function App() {
   const isPreload = useSelector((state) => state.isPreload);
@@ -36,6 +37,7 @@ function App() {
           <Route path={RoutePath.USER} element={<UserPage />} />
           <Route path={RoutePath.ADD_THREAD} element={<AddThreadPage />} />
           <Route path={RoutePath.THREAD_DETAILS} element={<ThreadDetailsPage />} />
+          <Route path={RoutePath.LEADERBOARDS} element={<LeaderboardsPage />} />
         </Routes>
       </main>
       <BottomNavBar />
