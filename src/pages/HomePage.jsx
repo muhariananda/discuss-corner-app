@@ -8,9 +8,10 @@ import ThreadsList from '../components/ThreadsList';
 import CategoriesList from '../components/CategoriesList';
 
 function HomePage() {
-  const authUser = useSelector((state) => state.authUser);
-  const threads = useSelector((state) => state.threads);
   const users = useSelector((state) => state.users);
+  const threads = useSelector((state) => state.threads);
+  const categories = useSelector((state) => state.categories);
+  const authUser = useSelector((state) => state.authUser);
 
   const [categoryParams, setCategoryParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState(() => categoryParams.get('category') || '');
@@ -43,12 +44,6 @@ function HomePage() {
     return null;
   }
 
-  const getCategories = () => {
-    const allCategories = threads.map((thread) => thread.category);
-    const uniqueCategoriesSet = new Set(allCategories);
-    return [...uniqueCategoriesSet];
-  };
-
   const threadList = threads.map((thread) => ({
     ...thread,
     user: users.find((user) => user.id === thread.ownerId),
@@ -69,18 +64,20 @@ function HomePage() {
         <h1 className="py-2 text-lg text-blue-950 font-semibold">Kategori Populer</h1>
 
         <CategoriesList
-          categories={getCategories()}
+          categories={categories}
           selectedCategory={selectedCategory}
           selectCategory={onSelectCategoryHandler}
         />
       </div>
 
-      {!isThreadsEmpty && (
-      <ThreadsList
-        threads={filteredThreadList}
-        upVote={onUpVoteThreadHandler}
-        downVote={onDownVoteThreadHandler}
-      />
+      {!isThreadsEmpty ? (
+        <ThreadsList
+          threads={filteredThreadList}
+          upVote={onUpVoteThreadHandler}
+          downVote={onDownVoteThreadHandler}
+        />
+      ) : (
+        <p>Tidak ada diskusi</p>
       )}
       {authUser && <HomeActionButton />}
     </div>

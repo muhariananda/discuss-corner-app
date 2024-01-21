@@ -3,6 +3,7 @@ import { receiveUsersActionCreator } from '../users/action';
 import { receiveThreadsActionCreator } from '../threads/action';
 import { clearThreadDetailsActionCreator, receiveThreadDetailsActionCreator } from '../threadDetails/action';
 import { receiveCommentsActionCreator } from '../comments/action';
+import { receiveCategoriesActionCreator } from '../categories/action';
 import api from '../../utils/api';
 
 function asyncPopulateUsersAndThreads() {
@@ -10,13 +11,18 @@ function asyncPopulateUsersAndThreads() {
     dispatch(showLoading());
 
     try {
-      const [threads, users] = await Promise.all([
-        api.getAllThreads(),
+      const [users, threads] = await Promise.all([
         api.getAllUsers(),
+        api.getAllThreads(),
       ]);
 
-      dispatch(receiveThreadsActionCreator(threads));
+      const allCategories = threads.map((thread) => thread.category);
+      const uniqueCategoriesSet = new Set(allCategories);
+      const categories = [...uniqueCategoriesSet];
+
       dispatch(receiveUsersActionCreator(users));
+      dispatch(receiveThreadsActionCreator(threads));
+      dispatch(receiveCategoriesActionCreator(categories));
     } catch (error) {
       alert(error.message);
     } finally {
