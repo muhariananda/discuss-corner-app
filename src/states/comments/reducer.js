@@ -16,8 +16,8 @@ function commentsReducer(comments = [], action = {}) {
         if (comment.id === commentId) {
           return {
             ...comment,
-            upVotesBy: comment.upVotesBy.includes(commentId)
-              ? comment.upVotesBy.filter((id) => id !== commentId)
+            upVotesBy: comment.upVotesBy.includes(userId)
+              ? comment.upVotesBy.filter((id) => id !== userId)
               : comment.upVotesBy.concat(userId),
           };
         }

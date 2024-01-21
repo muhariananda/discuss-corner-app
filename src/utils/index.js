@@ -19,4 +19,13 @@ function postedAt(date) {
   return 'just now';
 }
 
-export default postedAt;
+function checkUserHasLogged(userId) {
+  if (!userId) {
+    alert('Silahkan login terlebih dahulu');
+  }
+}
+
+export {
+  postedAt,
+  checkUserHasLogged,
+};

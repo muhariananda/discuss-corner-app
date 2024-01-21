@@ -2,10 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import useInputHTML from '../hooks/useInputHTML';
 
-function CommentInput({ addComment }) {
+function CommentInput({ userId, addComment }) {
   const [content, handleContentChange] = useInputHTML('');
 
-  const handleAddComment = () => addComment(content);
+  const handleAddComment = () => {
+    if (userId) {
+      addComment(content);
+    } else {
+      alert('Silahkan login untuk melanjutkan');
+    }
+  };
 
   return (
     <div>
@@ -28,7 +34,12 @@ function CommentInput({ addComment }) {
   );
 }
 
+CommentInput.defaultProps = {
+  userId: null,
+};
+
 CommentInput.propTypes = {
+  userId: PropTypes.string,
   addComment: PropTypes.func.isRequired,
 };
 

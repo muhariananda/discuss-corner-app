@@ -54,13 +54,13 @@ function asyncAddCommment({ threadId, content }) {
 }
 
 function _isUserUpVoteComment({ authUser, comments, commentId }) {
-  return comments.includes(
+  return comments.some(
     (comment) => comment.id === commentId && comment.upVotesBy.includes(authUser.id),
   );
 }
 
 function _isUserDownVoteComment({ authUser, comments, commentId }) {
-  return comments.includes(
+  return comments.some(
     (comment) => comment.id === commentId && comment.downVotesBy.includes(authUser.id),
   );
 }
@@ -68,12 +68,12 @@ function _isUserDownVoteComment({ authUser, comments, commentId }) {
 function asyncUpVoteComment({ threadId, commentId }) {
   return async (dispatch, getState) => {
     const { authUser } = getState();
+    const hasUpVoted = _isUserUpVoteComment({ ...getState(), commentId });
+
     dispatch(upVoteCommentActionCreator({ commentId, userId: authUser.id }));
 
-    const isUpVote = _isUserUpVoteComment({ ...getState(), commentId });
-
     try {
-      if (!isUpVote) {
+      if (!hasUpVoted) {
         await api.upVoteComment({ threadId, commentId });
       } else {
         await api.neutralizeCommentVote({ threadId, commentId });
@@ -88,12 +88,12 @@ function asyncUpVoteComment({ threadId, commentId }) {
 function asyncDownVoteComment({ threadId, commentId }) {
   return async (dispatch, getState) => {
     const { authUser } = getState();
+    const hasDownVoted = _isUserDownVoteComment({ ...getState(), commentId });
+
     dispatch(downVoteCommentActionCreator({ commentId, userId: authUser.id }));
 
-    const isDownVote = _isUserDownVoteComment({ ...getState(), commentId });
-
     try {
-      if (!isDownVote) {
+      if (!hasDownVoted) {
         await api.downVoteComment({ threadId, commentId });
       } else {
         await api.neutralizeCommentVote({ threadId, commentId });

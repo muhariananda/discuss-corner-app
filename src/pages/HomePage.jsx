@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { asyncPopulateUsersAndThreads } from '../states/shared/action';
+import { asyncUpVoteThread, asyncDownVoteThread } from '../states/threads/action';
 import HomeActionButton from '../components/HomeActionButton';
 import ThreadsList from '../components/ThreadsList';
 import CategoriesList from '../components/CategoriesList';
@@ -30,6 +31,14 @@ function HomePage() {
     }
   };
 
+  const onUpVoteThreadHandler = (threadId) => {
+    dispatch(asyncUpVoteThread(threadId));
+  };
+
+  const onDownVoteThreadHandler = (threadId) => {
+    dispatch(asyncDownVoteThread(threadId));
+  };
+
   if (threads.length === 0 || users.length === 0) {
     return null;
   }
@@ -43,18 +52,22 @@ function HomePage() {
   const threadList = threads.map((thread) => ({
     ...thread,
     user: users.find((user) => user.id === thread.ownerId),
+    userId: authUser?.id || null,
   }));
 
   const filteredThreadList = threadList.filter(
-    (thread) => thread.category.includes(selectedCategory),
+    (thread) => thread.category && thread.category.includes(selectedCategory),
   );
 
   const isThreadsEmpty = filteredThreadList === 0;
 
   return (
     <div className="h-full pt-2 pb-16 px-4">
+
       <div className="p-4 mb-2 bg-gray-50 rounded">
+
         <h1 className="py-2 text-lg text-blue-950 font-semibold">Kategori Populer</h1>
+
         <CategoriesList
           categories={getCategories()}
           selectedCategory={selectedCategory}
@@ -62,7 +75,13 @@ function HomePage() {
         />
       </div>
 
-      {!isThreadsEmpty && <ThreadsList threads={filteredThreadList} />}
+      {!isThreadsEmpty && (
+      <ThreadsList
+        threads={filteredThreadList}
+        upVote={onUpVoteThreadHandler}
+        downVote={onDownVoteThreadHandler}
+      />
+      )}
       {authUser && <HomeActionButton />}
     </div>
   );

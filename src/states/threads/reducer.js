@@ -17,7 +17,7 @@ function threadsReducer(threads = [], action = {}) {
           return {
             ...thread,
             upVotesBy: thread.upVotesBy.includes(userId)
-              ? thread.upVotesBy.fliter((id) => id !== userId)
+              ? thread.upVotesBy.filter((id) => id !== userId)
               : thread.upVotesBy.concat(userId),
           };
         }
@@ -32,7 +32,7 @@ function threadsReducer(threads = [], action = {}) {
           return {
             ...thread,
             downVotesBy: thread.downVotesBy.includes(userId)
-              ? thread.downVotesBy.fliter((id) => id !== userId)
+              ? thread.downVotesBy.filter((id) => id !== userId)
               : thread.downVotesBy.concat(userId),
           };
         }

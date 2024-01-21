@@ -37,12 +37,12 @@ function downVoteThreadDetailsActionCreator(userId) {
 function asyncUpVoteThreadDetails() {
   return async (dispatch, getState) => {
     const { authUser, threadDetails } = getState();
+    const hasUpVoted = threadDetails.upVotesBy.includes(authUser.id);
+
     dispatch(upVoteThreadDetailsActionCreator(authUser.id));
 
-    const isUpVote = threadDetails.upVotesBy.includes(authUser.id);
-
     try {
-      if (!isUpVote) {
+      if (!hasUpVoted) {
         await api.upVoteThread(threadDetails.id);
       } else {
         await api.neutralizeThreadVote(threadDetails.id);
@@ -57,12 +57,12 @@ function asyncUpVoteThreadDetails() {
 function asyncDownVoteThreadDetails() {
   return async (dispatch, getState) => {
     const { authUser, threadDetails } = getState();
+    const hasDownVoted = threadDetails.downVotesBy.includes(authUser.id);
+
     dispatch(downVoteThreadDetailsActionCreator(authUser.id));
 
-    const isDownVote = threadDetails.downVotesBy.includes(authUser.id);
-
     try {
-      if (!isDownVote) {
+      if (!hasDownVoted) {
         await api.downVoteThread(threadDetails.id);
       } else {
         await api.neutralizeThreadVote(threadDetails.id);

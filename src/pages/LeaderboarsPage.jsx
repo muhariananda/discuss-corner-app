@@ -12,6 +12,10 @@ function LeaderboardsPage() {
     dispatch(asyncReceiveLeaderboards());
   }, [dispatch]);
 
+  if (!leaderboards) {
+    return null;
+  }
+
   return (
     <div className="h-full px-8 pt-4 pb-20">
       <h1 className="mt-2 mb-4 text-xl text-blue-950 font-semibold">

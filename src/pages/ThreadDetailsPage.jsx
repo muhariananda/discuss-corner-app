@@ -3,16 +3,19 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import parse from 'html-react-parser';
 import { asyncPopulateThreadDetailsAndComments } from '../states/shared/action';
-import { asyncAddCommment } from '../states/comments/action';
+import { asyncAddCommment, asyncDownVoteComment, asyncUpVoteComment } from '../states/comments/action';
 import CommentsList from '../components/CommentsList';
 import CommentInput from '../components/CommentInput';
-import postedAt from '../utils';
+import { postedAt } from '../utils/index';
+import { asyncDownVoteThreadDetails, asyncUpVoteThreadDetails } from '../states/threadDetails/action';
+import ThreadDetailsActions from '../components/ThreadDetailsActions';
 
 function ThreadDetailsPage() {
   const { id } = useParams();
 
   const thread = useSelector((state) => state.threadDetails);
   const comments = useSelector((state) => state.comments);
+  const authUser = useSelector((state) => state.authUser);
 
   const dispatch = useDispatch();
 
@@ -20,16 +23,36 @@ function ThreadDetailsPage() {
     dispatch(asyncPopulateThreadDetailsAndComments(id));
   }, [id, dispatch]);
 
-  const onAddComment = (content) => {
+  const onAddCommentHandler = (content) => {
     dispatch(asyncAddCommment({ threadId: id, content }));
+  };
+
+  const onUpVoteThreadHandler = () => {
+    dispatch(asyncUpVoteThreadDetails(id));
+  };
+
+  const onDownVoteThreadHandler = () => {
+    dispatch(asyncDownVoteThreadDetails(id));
+  };
+
+  const onUpVoteCommentHandler = (commentId) => {
+    dispatch(asyncUpVoteComment({ threadId: id, commentId }));
+  };
+
+  const onDownVoteCommentHandler = (commentId) => {
+    dispatch(asyncDownVoteComment({ threadId: id, commentId }));
   };
 
   if (!thread) {
     return null;
   }
 
-  const { title, createdAt, body } = thread;
+  const {
+    title, category, createdAt, body, upVotesBy, downVotesBy,
+  } = thread;
   const { avatar, name } = thread.owner;
+
+  const userId = authUser?.id || null;
 
   const parsedBody = parse(body);
   const formattedDate = postedAt(createdAt);
@@ -53,12 +76,31 @@ function ThreadDetailsPage() {
         </div>
       </div>
 
-      <h1 className="text-blue-950 text-2xl font-semibold mb-2">{title}</h1>
+      <h1 className="text-blue-950 text-2xl font-semibold mb-4">{title}</h1>
       <p className="text-gray-500 text-sm mb-6">{parsedBody}</p>
-      <h2 className="text-blue-950 text-xl font-bold">{`${commentsCount} Komentar`}</h2>
+      <p className="text-blue-600 font-semibold mb-6">{`#${category}`}</p>
 
-      <CommentInput addComment={onAddComment} />
-      <CommentsList comments={comments} />
+      <div className="mb-6">
+        <ThreadDetailsActions
+          userId={userId}
+          upVotesBy={upVotesBy}
+          downVotesBy={downVotesBy}
+          upVote={onUpVoteThreadHandler}
+          downVote={onDownVoteThreadHandler}
+        />
+      </div>
+
+      <h2 className="text-blue-950 text-xl font-bold">{`${commentsCount} Komentar`}</h2>
+      <CommentInput
+        addComment={onAddCommentHandler}
+        userId={userId}
+      />
+      <CommentsList
+        comments={comments}
+        userId={userId}
+        upVote={onUpVoteCommentHandler}
+        downVote={onDownVoteCommentHandler}
+      />
     </div>
   );
 }
