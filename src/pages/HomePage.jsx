@@ -1,13 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 import { asyncPopulateUsersAndThreads } from '../states/shared/action';
 import HomeActionButton from '../components/HomeActionButton';
 import ThreadsList from '../components/ThreadsList';
+import CategoriesList from '../components/CategoriesList';
 
 function HomePage() {
   const authUser = useSelector((state) => state.authUser);
   const threads = useSelector((state) => state.threads);
   const users = useSelector((state) => state.users);
+
+  const [categoryParams, setCategoryParams] = useSearchParams();
+  const [selectedCategory, setSelectedCategory] = useState(() => categoryParams.get('category') || '');
 
   const dispatch = useDispatch();
 
@@ -15,18 +20,49 @@ function HomePage() {
     dispatch(asyncPopulateUsersAndThreads());
   }, [dispatch]);
 
+  const onSelectCategoryHandler = (newCategory) => {
+    if (newCategory === selectedCategory) {
+      setSelectedCategory('');
+      setCategoryParams({ category: '' });
+    } else {
+      setSelectedCategory(newCategory);
+      setCategoryParams({ category: newCategory });
+    }
+  };
+
   if (threads.length === 0 || users.length === 0) {
     return null;
   }
+
+  const getCategories = () => {
+    const allCategories = threads.map((thread) => thread.category);
+    const uniqueCategoriesSet = new Set(allCategories);
+    return [...uniqueCategoriesSet];
+  };
 
   const threadList = threads.map((thread) => ({
     ...thread,
     user: users.find((user) => user.id === thread.ownerId),
   }));
 
+  const filteredThreadList = threadList.filter(
+    (thread) => thread.category.includes(selectedCategory),
+  );
+
+  const isThreadsEmpty = filteredThreadList === 0;
+
   return (
-    <div className="h-screen py-2 px-4">
-      <ThreadsList threads={threadList} />
+    <div className="h-full pt-2 pb-16 px-4">
+      <div className="p-4 mb-2 bg-gray-50 rounded">
+        <h1 className="py-2 text-lg text-blue-950 font-semibold">Kategori Populer</h1>
+        <CategoriesList
+          categories={getCategories()}
+          selectedCategory={selectedCategory}
+          selectCategory={onSelectCategoryHandler}
+        />
+      </div>
+
+      {!isThreadsEmpty && <ThreadsList threads={filteredThreadList} />}
       {authUser && <HomeActionButton />}
     </div>
   );
