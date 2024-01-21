@@ -8,7 +8,6 @@ module.exports = {
     'airbnb/hooks',
     'eslint:recommended',
     'plugin:react/recommended',
-    'prettier',
   ],
   overrides: [],
   parserOptions: {
@@ -18,14 +17,6 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['react', 'react-hooks', 'prettier'],
-  rules: {
-    'prettier/prettier': [
-      'error',
-      {
-        singleQuote: true,
-        parser: 'flow',
-      },
-    ],
-  },
+  plugins: ['react', 'react-hooks'],
+  rules: {},
 };
