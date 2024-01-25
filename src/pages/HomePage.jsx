@@ -43,8 +43,6 @@ function HomePage() {
     return null;
   }
 
-  // Todo:
-
   const threadList = threads.map((thread) => ({
     ...thread,
     user: users.find((user) => user.id === thread.ownerId),
@@ -54,6 +52,8 @@ function HomePage() {
   const filteredThreadList = threadList.filter(
     (thread) => thread.category && thread.category.includes(selectedCategory),
   );
+
+  const categories = Array.from(new Set(threads.map((thread) => thread.category)));
 
   const isThreadsEmpty = filteredThreadList === 0;
 
@@ -65,8 +65,7 @@ function HomePage() {
         <h1 className="py-2 text-lg text-blue-950 font-semibold">Kategori Populer</h1>
 
         <CategoriesList
-        // Todo
-          categories={[]}
+          categories={categories}
           selectedCategory={selectedCategory}
           selectCategory={onSelectCategoryHandler}
         />
