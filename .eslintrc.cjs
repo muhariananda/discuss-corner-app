@@ -5,12 +5,7 @@ module.exports = {
     node: true,
     'cypress/globals': true,
   },
-  extends: [
-    'airbnb',
-    'airbnb/hooks',
-    'eslint:recommended',
-    'plugin:react/recommended',
-  ],
+  extends: ['airbnb', 'airbnb/hooks', 'eslint:recommended', 'plugin:react/recommended', 'plugin:storybook/recommended'],
   overrides: [],
   parserOptions: {
     ecmaFeatures: {
@@ -26,5 +21,6 @@ module.exports = {
   ],
   rules: {
     'no-underscore-dangle': 'off',
+    'react/jsx-props-no-spreading': 'off',
   },
 };

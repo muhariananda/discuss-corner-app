@@ -8,18 +8,10 @@ function ThreadList({ threads, upVote, downVote }) {
       {threads.map((thread) => (
         <ThreadItem
           key={thread.id}
-          id={thread.id}
-          title={thread.title}
-          category={thread.category}
-          createdAt={thread.createdAt}
-          upVotesBy={thread.upVotesBy}
-          downVotesBy={thread.downVotesBy}
-          totalComments={thread.totalComments}
-          name={thread.user.name}
-          avatar={thread.user.avatar}
-          userId={thread.userId}
           upVote={upVote}
           downVote={downVote}
+          {...thread.user}
+          {...thread}
         />
       ))}
     </div>

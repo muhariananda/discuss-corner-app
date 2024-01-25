@@ -62,17 +62,29 @@ ThreadItem.defaultProps = {
 };
 
 ThreadItem.propTypes = {
+  /** The id of the thread */
   id: PropTypes.string.isRequired,
+  /** The title of the thread */
   title: PropTypes.string.isRequired,
+  /** The category of the thread */
   category: PropTypes.string.isRequired,
+  /** The date when the thread was created */
   createdAt: PropTypes.string.isRequired,
+  /** Total thread comments */
   totalComments: PropTypes.number.isRequired,
+  /** List of users who have selected upvote */
   upVotesBy: PropTypes.arrayOf(PropTypes.string).isRequired,
+  /** List of users who have selected downvote */
   downVotesBy: PropTypes.arrayOf(PropTypes.string).isRequired,
+  /** The name of the user who created the thread */
   name: PropTypes.string.isRequired,
+  /** The avatar of the user who created the thread */
   avatar: PropTypes.string.isRequired,
+  /** The current user's userId */
   userId: PropTypes.string,
+  /** Action when user is clikcked up vote button */
   upVote: PropTypes.func.isRequired,
+  /** Action when user is clikcked down vote button */
   downVote: PropTypes.func.isRequired,
 };
 
