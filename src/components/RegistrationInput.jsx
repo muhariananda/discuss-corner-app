@@ -56,7 +56,7 @@ function RegistartionInput({ register }) {
 
       <button
         type="button"
-        aria-label="daftar"
+        aria-label="Daftar"
         className="bg-blue-600 text-white p-2 rounded-md w-full mb-4"
         onClick={handleRegister}
       >
