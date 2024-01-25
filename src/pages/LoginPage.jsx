@@ -1,18 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { asyncSetAuthUser } from '../states/authUser/action';
 import LoginInput from '../components/LoginInput';
 import RoutePath from '../utils/routePath';
 import UserFormLink from '../components/UserFormLink';
 
 function LoginPage() {
+  const authUser = useSelector((state) => state.authUser);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (authUser) navigate(RoutePath.HOME);
+  }, [authUser, navigate]);
+
   const onLoginHandler = ({ email, password }) => {
     dispatch(asyncSetAuthUser({ email, password }));
-    navigate(RoutePath.HOME);
   };
 
   return (
