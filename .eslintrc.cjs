@@ -18,5 +18,7 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react', 'react-hooks'],
-  rules: {},
+  rules: {
+    'no-underscore-dangle': 'off',
+  },
 };

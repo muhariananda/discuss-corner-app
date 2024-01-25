@@ -10,7 +10,6 @@ import CategoriesList from '../components/CategoriesList';
 function HomePage() {
   const users = useSelector((state) => state.users);
   const threads = useSelector((state) => state.threads);
-  const categories = useSelector((state) => state.categories);
   const authUser = useSelector((state) => state.authUser);
 
   const [categoryParams, setCategoryParams] = useSearchParams();
@@ -44,6 +43,8 @@ function HomePage() {
     return null;
   }
 
+  // Todo:
+
   const threadList = threads.map((thread) => ({
     ...thread,
     user: users.find((user) => user.id === thread.ownerId),
@@ -64,7 +65,8 @@ function HomePage() {
         <h1 className="py-2 text-lg text-blue-950 font-semibold">Kategori Populer</h1>
 
         <CategoriesList
-          categories={categories}
+        // Todo
+          categories={[]}
           selectedCategory={selectedCategory}
           selectCategory={onSelectCategoryHandler}
         />
