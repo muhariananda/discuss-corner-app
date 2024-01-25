@@ -7,8 +7,6 @@ import userEvent from '@testing-library/user-event';
 import RegistrationInput from './RegistrationInput';
 
 /**
-    skenario testing
-
     - RegistrationInput component
         - should handle name typing correctly
         - should handle email typing correctly

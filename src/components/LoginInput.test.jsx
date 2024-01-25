@@ -7,8 +7,6 @@ import userEvent from '@testing-library/user-event';
 import LoginInput from './LoginInput';
 
 /**
-  skenario testing
-
     - LoginInput component
       - should handle email typing correctly
       - should handle password typing correctly

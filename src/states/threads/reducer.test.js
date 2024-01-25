@@ -1,6 +1,15 @@
 import { describe, it, expect } from 'vitest';
 import threadsReducer from './reducer';
 
+/**
+  threadReducer function
+   - should return the intial state when given by unknow action
+   - should return threads when given by RECEIVE_THREADS action
+   - should return threads with the new thread when given by ADD_THREAD action
+   - should return threads with the up votes by user when given by UP_VOTE_THREAD action
+   - should return threads with the down votes by user when given by DOWN_VOTE_THREAD action
+*/
+
 describe('threadReducer function', () => {
   it('should return the intial state when given by unknow action', () => {
     // arrange

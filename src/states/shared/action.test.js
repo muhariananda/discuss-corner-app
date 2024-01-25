@@ -9,6 +9,18 @@ import { receiveThreadsActionCreator } from '../threads/action';
 import { receiveCommentsActionCreator } from '../comments/action';
 import api from '../../utils/api';
 
+/**
+  asyncPopulateUsersAndThreads thunk
+    - should dispatch action correctly when data fetching successful
+    - should dispatch action and call alert correctly when data fetching failed
+*/
+
+/**
+  asyncPopulateThreadDetailsAndComments thunk
+    - should dispatch action correctly when data fetching successful
+    - should dispatch action and call alert correctly when data fetching failed
+*/
+
 const fakeErrorResponse = new Error('Ups, something went wrong');
 
 describe('asyncPopulateUsersAndThreads thunk', () => {

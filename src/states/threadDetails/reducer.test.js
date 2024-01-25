@@ -1,6 +1,15 @@
 import { describe, it, expect } from 'vitest';
 import threadDetailsReducer from './reducer';
 
+/**
+  threadDetailsReducer function
+    - should return initial state when given by unknown action
+    - should return thread when given by RECEIVE_THREAD_DETAILS action
+    - should return null when given by CLEAR_THREAD_DETAILS action
+    - should return the thread with up votes by user when give by UP_VOTE_THREAD_DETAILS action
+    - should return the thread with down votes by user when give by DOWN_VOTE_THREAD_DETAILS action
+*/
+
 describe('threadDetailsReducer function', () => {
   it('should return initial state when given by unknown action', () => {
     // arrange
