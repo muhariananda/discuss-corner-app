@@ -21,7 +21,7 @@ function ThreadItem({
   const formattedDate = postedAt(createdAt);
 
   return (
-    <div className="bg-gray-50 rounded-md p-4 mb-3 hover:bg-gray-200">
+    <div className="bg-slate-100 rounded-md p-4 mb-3 hover:bg-gray-200">
       <div className="flex items-center mb-3">
         <div className="w-10 h-10 rounded-full overflow-hidden">
           <img
