@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import api from '../../utils/api';
 
 const ActionType = {
