@@ -1,3 +1,5 @@
+![logo](./src/images/logo.png)
+
 # Discuss Corner Wesbite App
 
 Developed a forum website, Discuss Corner, aimed at fostering community engagement through discussions on various topics. The platform provides users with the ability to register, log in, create threads, comment on existing threads, and vote on posts.
